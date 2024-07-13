@@ -33,7 +33,7 @@ plugin_url = "https://github.com/FleecyManatee81/OctoPrint-Octomail"
 plugin_license = "AGPLv3"
 
 # Any additional requirements besides OctoPrint should be listed here
-plugin_requires = ["google-api-python-client google-auth-httplib2 google-auth-oauthlib"]
+plugin_requires = ["google-api-python-client", "google-auth-httplib2", "google-auth-oauthlib"]
 
 ### --------------------------------------------------------------------------------------------------------------------
 ### More advanced options that you usually shouldn't have to touch follow after this point
