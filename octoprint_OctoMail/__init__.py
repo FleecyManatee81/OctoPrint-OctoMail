@@ -536,6 +536,7 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
+                self._logger.info(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file("C:\\Users\\unsee\\AppData\\Roaming\\OctoPrint\\plugins\\OctoMail\\credentials.json", SCOPES)
                 creds = flow.run_local_server(port=0)
