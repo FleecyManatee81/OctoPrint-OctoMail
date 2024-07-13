@@ -51,11 +51,11 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
         try:
             with open("OctoMailConfig.txt", "r") as f:
                 f.read()
-        except:
+        except FileNotFoundError:
             try:
                 with open("OctoMailDefaults.txt", "r") as f:
                     f.read()
-            except:
+            except FileNotFoundError:
                 with open("OctoMailDefaults.txt", "w") as f:
                     f.write(defaults)
                 with open("OctoMailConfig.txt", "w") as f:
@@ -104,6 +104,12 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                         print("Update Complete!")
             except IndexError:
                 pass
+            except FileNotFoundError:
+                with open("OctoMailDefaults.txt", "w") as f:
+                    f.write(defaults)
+                with open("OctoMailConfig.txt", "w") as f:
+                    f.write(defaults)
+                
         SCOPES = ["https://mail.google.com/"]
 
         self.t = octoprint.util.RepeatedTimer(0.25, self.myEmails)
@@ -538,7 +544,7 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                 creds.refresh(Request())
                 self._logger.info(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file("C:\\Users\\unsee\\AppData\\Roaming\\OctoPrint\\plugins\\OctoMail\\credentials.json", SCOPES)
+                flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
                 creds = flow.run_local_server(port=0)
             with open("token.json", "w") as f:
                 f.write(creds.to_json())
