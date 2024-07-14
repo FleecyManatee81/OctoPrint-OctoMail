@@ -37,9 +37,10 @@ __plugin_author__ = "Fleecy"
 
 
 ##myEmails()
-class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterInterface, octoprint.plugin.TemplatePlugin, octoprint.plugin.WebcamProviderPlugin):
+class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterInterface, octoprint.plugin.TemplatePlugin, octoprint.plugin.WebcamProviderPlugin, octoprint.access.permissions):
     get_line = lambda self, name, line, split: open("OctoMailConfig.txt", "r").readlines()[line].strip().split(split)
     def on_after_startup(self):
+        self._access.additional_permissions_hook()
         for i in range(0, 3):
             print("#########################")
         print("#####OCTOMAIL ACTIVE#####")
