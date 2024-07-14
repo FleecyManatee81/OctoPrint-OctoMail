@@ -1,0 +1,21 @@
+0.0.10
+stewarta@ecgbert.sheffield.sch.uk fleecyprinter1@gmail.com unseenu@gmx.com unseenu.binky@gmail.com unseenu@outlook.com awstewy@gmail.com
+
+
+!, !
+print, print
+view, view
+ignore, ignore
+preheat, preheat
+help, help
+addsafeuser, addsafeuser
+removesafeuser, removesafeuser
+addtempviewer, addtempviewer
+addviewer, addviewer
+removeviewer, removeviewer
+config, config
+resetconfig, resetconfig
+stop, stop
+pause, pause
+resume, resume
+cmdselector, cmdselector

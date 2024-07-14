@@ -1,0 +1,21 @@
+0.0.10
+
+
+
+!, !
+print, print
+view, view
+ignore, ignore
+preheat, preheat
+help, help
+addsafeuser, addsafeuser
+removesafeuser, removesafeuser
+addtempviewer, addtempviewer
+addviewer, addviewer
+removeviewer, removeviewer
+config, config
+resetconfig, resetconfig
+stop, stop
+pause, pause
+resume, resume
+cmdselector, cmdselector
