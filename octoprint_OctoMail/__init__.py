@@ -794,6 +794,7 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
 
         except HttpError as error:
             print(f"An error occured: {error}")
+            self._logger.info(error)
 ##        except:
 ##            print("An Error Occured")
 
