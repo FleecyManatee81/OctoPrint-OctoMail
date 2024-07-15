@@ -39,7 +39,7 @@ __plugin_author__ = "Fleecy"
 
 ##myEmails()
 class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterInterface, octoprint.plugin.TemplatePlugin, octoprint.plugin.WebcamProviderPlugin):
-    get_line = lambda self, name, line, split: open("OctoMailConfig.txt", "r").readlines()[line].strip().split(split)
+    get_line = lambda self, name, line, split: open(name, "r").readlines()[line].strip().split(split)
     def get_additional_permissions(*args, **kwargs):
     return [
         dict(key="ADMIN",
