@@ -9,6 +9,7 @@
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
 version = "0.0.10"
+from octoprint.access import ADMIN_GROUP
 import os
 import os.path
 import octoprint.plugin
@@ -37,10 +38,9 @@ __plugin_author__ = "Fleecy"
 
 
 ##myEmails()
-class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterInterface, octoprint.plugin.TemplatePlugin, octoprint.plugin.WebcamProviderPlugin, octoprint.access.permissions):
+class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterInterface, octoprint.plugin.TemplatePlugin, octoprint.plugin.WebcamProviderPlugin):
     get_line = lambda self, name, line, split: open("OctoMailConfig.txt", "r").readlines()[line].strip().split(split)
     def on_after_startup(self):
-        self._access.additional_permissions_hook()
         for i in range(0, 3):
             print("#########################")
         print("#####OCTOMAIL ACTIVE#####")
@@ -543,7 +543,6 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
-                self._logger.info(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
                 creds = flow.run_local_server(port=0)
@@ -802,9 +801,19 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
 
 
 
+def get_additional_permissions(*args, **kwargs):
+    return [
+        dict(key="ADMIN",
+             name="Admin access",
+             description=gettext("Allows administrating all application keys"),
+             roles=["admin"],
+             dangerous=True,
+             default_groups=[ADMIN_GROUP])
+    ]
 
-
-
+__plugin_hooks__ = {
+    "octoprint.access.permissions": get_additional_permissions
+}
 __plugin_implementation__ = OctoMailPlugin()
 
 ##class OctoMailRun(octoprint.plugin.types.OctoPrintPlugin):
