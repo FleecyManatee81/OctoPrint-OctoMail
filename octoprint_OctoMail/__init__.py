@@ -23,11 +23,7 @@ import os.path
 import base64
 
 
-__plugin_name__ = "OctoMail"
-__plugin_version__ = version
-__plugin_pythoncompat__ = ">=3,<4"
-__plugin_description__ = "Makes OctoPrint Work Over Email"
-__plugin_author__ = "Fleecy"
+
 
 
 
@@ -816,6 +812,11 @@ __plugin_hooks__ = {
     "octoprint.access.permissions": get_additional_permissions
 }
 __plugin_implementation__ = OctoMailPlugin()
+__plugin_name__ = "OctoMail"
+__plugin_version__ = version
+__plugin_pythoncompat__ = ">=3,<4"
+__plugin_description__ = "Makes OctoPrint Work Over Email"
+__plugin_author__ = "Fleecy"
 
 ##class OctoMailRun(octoprint.plugin.types.OctoPrintPlugin):
 ##    myEmails()
