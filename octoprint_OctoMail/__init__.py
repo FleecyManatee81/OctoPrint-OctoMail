@@ -24,10 +24,10 @@ import base64
 
 
 
-
+'''
 __plugin_hooks__ = {
     "octoprint.access.permissions": get_additional_permissions
-}
+} '''
 __plugin_implementation__ = OctoMailPlugin()
 __plugin_name__ = "OctoMail"
 __plugin_version__ = version
@@ -45,6 +45,7 @@ __plugin_pythoncompat__ = ">=3.7,<4"
 ##myEmails()
 class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterInterface, octoprint.plugin.TemplatePlugin, octoprint.plugin.WebcamProviderPlugin):
     get_line = lambda self, name, line, split: open(name, "r").readlines()[line].strip().split(split)
+    '''
     def get_additional_permissions(*args, **kwargs):
     return [
         dict(key="ADMIN",
@@ -54,6 +55,7 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
              dangerous=True,
              default_groups=[ADMIN_GROUP])
     ]
+    '''
     def on_after_startup(self):
         for i in range(0, 3):
             print("#########################")
