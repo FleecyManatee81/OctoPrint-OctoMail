@@ -9,7 +9,7 @@
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
 version = "0.1.5"
-from octoprint.access import ADMIN_GROUP
+#from octoprint.access import ADMIN_GROUP
 import os
 import os.path
 import octoprint.plugin
