@@ -8,7 +8,7 @@
 # Copyright:   (c) unsee 2024
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
-version = "0.0.10"
+version = "0.1.5"
 from octoprint.access import ADMIN_GROUP
 import os
 import os.path
