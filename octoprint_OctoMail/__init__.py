@@ -756,7 +756,6 @@ __plugin_version__ = version
 __plugin_pythoncompat__ = ">=3,<4"
 __plugin_description__ = "Makes OctoPrint Work Over Email"
 __plugin_author__ = "Fleecy"
-__plugin_pythoncompat__ = ">=3,<4"
 
 ##class OctoMailRun(octoprint.plugin.types.OctoPrintPlugin):
 ##    myEmails()
