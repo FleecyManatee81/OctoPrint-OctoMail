@@ -8,8 +8,8 @@
 # Copyright:   (c) unsee 2024
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
-version = "0.1.5"
-#from octoprint.access import ADMIN_GROUP
+version = "0.0.10"
+from octoprint.access import ADMIN_GROUP
 import os
 import os.path
 import octoprint.plugin
@@ -21,31 +21,9 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import os.path
 import base64
-
-
-
-'''
-__plugin_hooks__ = {
-    "octoprint.access.permissions": get_additional_permissions
-} '''
-__plugin_implementation__ = OctoMailPlugin()
-__plugin_name__ = "OctoMail"
-__plugin_version__ = version
-__plugin_description__ = "Makes OctoPrint Work Over Email"
-__plugin_author__ = "Fleecy"
-__plugin_pythoncompat__ = ">=3.7,<4"
-
-
-
-
-
-
-
-
 ##myEmails()
 class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterInterface, octoprint.plugin.TemplatePlugin, octoprint.plugin.WebcamProviderPlugin):
     get_line = lambda self, name, line, split: open(name, "r").readlines()[line].strip().split(split)
-    '''
     def get_additional_permissions(*args, **kwargs):
     return [
         dict(key="ADMIN",
@@ -55,7 +33,6 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
              dangerous=True,
              default_groups=[ADMIN_GROUP])
     ]
-    '''
     def on_after_startup(self):
         for i in range(0, 3):
             print("#########################")
@@ -82,22 +59,18 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                     new_defaults = f.readlines()
                 with open("OctoMailConfig.txt", "w") as f:
                     f.writelines(new_defaults)
-
-
         finally:
             try:
                 with open("OctoMailConfig.txt", "r") as f:
                     config_lines = f.readlines()
                     print(config_lines[0][:-1])
                     if config_lines[0][:-1] != version:
-
                         print("Updating Config defaults...")
                         with open("OctoMailDefaults.txt", "w") as f:
                             f.write(defaults)
                         print("Config Defaults Updated")
                         num1 = 0
                         print("Begining Config Update...")
-
                         for lines in config_lines:
                             num1 += 1
                         with open("OctoMailDefaults.txt", "r") as df:
@@ -111,10 +84,8 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                             with open("OctoMailConfig.txt", "a") as cf:
                                 cf.write("\n")
                                 cf.writelines(default_file_lines[num1:])
-
                         with open("OctoMailConfig.txt", "r") as vcf:
                             config_version_change = vcf.readlines()
-
                             config_version_change[0]=version + "\n"
                         with open("OctoMailConfig.txt", "w") as vcfc:
                             vcfc.writelines(config_version_change)
@@ -128,12 +99,10 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                     f.write(defaults)
                 
         SCOPES = ["https://mail.google.com/"]
-
         self.t = octoprint.util.RepeatedTimer(0.25, self.myEmails)
         self.t.start()
         self.myEmails()
 ##        myEmails()
-
     def send_message(self, service, message, subject, target, attachment="None"):
         try:
             if attachment == "None":
@@ -151,22 +120,18 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                     f"attachment; filename= 'attachment.txt'",
                 )
                 msg = self.MIMEMultipart()
-
                 msg["To"] = target
                 msg["Subject"] = subject
                 html_part = MIMEText(message)
                 msg.attach(html_part)
                 msg.attach(part)
             
-
                 
                 msg_create = {"raw": base64.urlsafe_b64encode(msg.as_bytes()).decode()}
                 msg = (service.users().messages().send(userId="me", body=msg_create).execute())
             print("Sent Message")
         except HttpError as error:
             print(f"An error occured: {error}")
-
-
     ##try:
     ##    with open("OctoMailConfig.txt", "r") as f:
     ##        f.read()
@@ -223,7 +188,6 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
     ##                print("Update Complete!")
     ##    except:
     ##        pass
-
     def cmd_decoder(self, cmd_num, info, info_2, info_3, service, sender, safe_emails):
         print(f"CMD Num: {cmd_num}")
         cmd_num - 4
@@ -232,7 +196,6 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
             help_command = line[9][5:-1]
             view_command = line[6][5:-1]
             command_selector = line[4][3]
-
         if cmd_num == 1:
             print(f"printing {info}")
             if not self._printer.is_printing():
@@ -253,9 +216,7 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
             for i in self.get_webcam_configurations():
                 webcam = i
             self.send_message(service, "", "Report:", sender, self.take_webcam_snapshot(webcam))
-
                 
-
         elif cmd_num == 3:
             print("ignoring")
         elif cmd_num == 4:
@@ -297,7 +258,6 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                             new_safe_emails = email
                         else:
                             new_safe_emails += " " + email
-
                 config_lines[1] = new_safe_emails + "\n"
             with open("OctoMailConfig.txt", "w") as f:
                 f.writelines(config_lines)
@@ -343,7 +303,6 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                             new_viewers = email
                         else:
                             new_viewers += " " + email
-
                 lines[2] = new_viewers + "\n"
             with open("OctoMailConfig.txt", "w") as f:
                 f.writelines(lines)
@@ -366,7 +325,6 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                             new_viewers = email
                         else:
                             new_viewers += " " + email
-
                 lines[3] = new_viewers + "\n"
             with open("OctoMailConfig.txt", "w") as f:
                 f.writelines(lines)
@@ -382,7 +340,6 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                 for i in lines[5:]:
                     default_cmd = ""
                     cmd_recorded = False
-
                     for x in i:
                         if x != " " and x != "," and not cmd_recorded:
                             default_cmd += x
@@ -398,7 +355,6 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                 with open("OctoMailConfig.txt", "w") as f:
                     f.writelines(lines)
                     print(f'Changed CMD: "{default_cmd_save}" To: "{info_2}"')
-
         elif cmd_num == 12:
             with open("OctoMailDefaults.txt", "r") as f:
                 default_lines = f.readlines()
@@ -416,7 +372,6 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                         default_cmd = ""
                         current_cmd = ""
                         cmd_recorded = False
-
                         for x in i:
                             if x != " " and x != "," and not cmd_recorded:
                                 default_cmd += x
@@ -432,9 +387,6 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                     lines[cmd_location] = default_lines[cmd_location]
                     f.writelines(lines)
                     print(f"RESETTING COMMAND '{info}' IN CONFIG")
-
-
-
         elif cmd_num == 13:
             print("Stopping...")
             if self._printer.get_current_connection() == ("Closed", None, None, None):
@@ -495,7 +447,6 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                                 cmd = cmd[:-1]
                                 print(f"View CMD: {cmd}")
                             if subject[num][1:] != cmd or (not n in viewers and not n in tempviewers):
-
                                 print(f"{n} is not safe or valid")
                                 perms_error_msg = MIMEText("I'm Sorry But You Do Not Have The Permisions To Use That Command")
                                 perms_error_msg["to"] = n
@@ -565,10 +516,7 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                 self._logger.info(InstalledAppFlow.authorization_url())
             with open("token.json", "w") as f:
                 f.write(creds.to_json())
-
-
         try:
-
             service = build("gmail", "v1", credentials=creds, cache_discovery=False)
             result = service.users().messages().list(userId="me").execute()
             unchecked_messages = result.get("messages")
@@ -614,7 +562,6 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                         if 'data' in part['body']:
                             data = part['body']['data']
                         else:
-
                             att_id = part['body']['attachmentId']
                             att = service.users().messages().attachments().get(userId="me", messageId=i["id"],id=att_id).execute()
                             data = att['data']
@@ -627,15 +574,11 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                             file_datas.append(file_data)
                 all_paths.append(paths)
                 all_file_datas.append(file_datas)
-
-
-
                 payload = txt["payload"]
                 headers = payload["headers"]
                 service.users().messages().modify(userId="me", id=i["id"], body={"addLabelIds": ["Label_5"], "removeLabelIds": ["SPAM"]}).execute()
                 for i in headers:
     ##                already_read = service.users().labels().get(userId="me", id="Processed")
-
                     already_read = i in message_checking
                     if i["name"] == "Subject" and not already_read:
                         subject.append(i["value"])
@@ -653,7 +596,6 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
     ##        print(f"Body: {body}")
             print(f"Subject: {subject}")
             print(f"Sender: {senders}")
-
             raw_senders = []
             for d in senders:
                 start_adding_to_raw_senders = False
@@ -753,7 +695,6 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                             for line in config_lines[4:]:
                                 cmd = ""
                                 found_cmd = False
-
                                 for i in line.strip():
                                     if i == " " and not found_cmd:
                                         found_cmd = True
@@ -766,17 +707,14 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                                     
                                 cmd_count += 1
                     
-
                             for n in config_lines[4]:
                                 if n == " " and not found_cmd_select:
                                     found_cmd_select = True
                                 elif found_cmd_select and not n == " ":
                                     cmd_selector += n
                             cmd_selector = cmd_selector[0]
-
         ##                    for lines in config_lines:
                     if cmd_count != 4:
-
                         print("Begining Writing Gcode Files...")
                         num2 = 0
                         for path_N in all_paths[num]:
@@ -787,12 +725,8 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                                 self.send_message(service, "Successfully uploaded file", "Upload Successful", current_sender, "None")
                                 num2 += 1
                         print("Finished Writing Gcode Files")
-
-
-
                 elif subject[num][1:] == view_cmd and (n in viewers or n in tempviewers):
                     print("viewing")
-
                 else:
                     if subject[num][0] == cmd_selector:
                         with open("OctoMailConfig.txt", "r") as f:
@@ -808,17 +742,21 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
                         if subject[num][1:] != cmd or (not n in viewers and not n in tempviewers):
                             print(f"{n} is not safe or valid")
                 num+=1
-
         except HttpError as error:
             print(f"An error occured: {error}")
             self._logger.info(error)
 ##        except:
 ##            print("An Error Occured")
-
-
-
-
-
+__plugin_hooks__ = {
+    "octoprint.access.permissions": get_additional_permissions
+}
+__plugin_implementation__ = OctoMailPlugin()
+__plugin_name__ = "OctoMail"
+__plugin_version__ = version
+__plugin_pythoncompat__ = ">=3,<4"
+__plugin_description__ = "Makes OctoPrint Work Over Email"
+__plugin_author__ = "Fleecy"
+__plugin_pythoncompat__ = ">=3,<4"
 
 ##class OctoMailRun(octoprint.plugin.types.OctoPrintPlugin):
 ##    myEmails()
