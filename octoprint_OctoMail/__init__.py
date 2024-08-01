@@ -10,7 +10,10 @@
 #-------------------------------------------------------------------------------
 version = "0.0.10"
 __plugin_pythoncompat__ = ">=3,<4"
-from octoprint.access import ADMIN_GROUP
+try:
+    from octoprint.access import ADMIN_GROUP
+except:
+    self_logger.info("An error occured")
 import os
 import os.path
 import octoprint.plugin
@@ -26,7 +29,8 @@ import base64
 class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterInterface, octoprint.plugin.TemplatePlugin, octoprint.plugin.WebcamProviderPlugin):
     get_line = lambda self, name, line, split: open(name, "r").readlines()[line].strip().split(split)
     def get_additional_permissions(*args, **kwargs):
-    return [
+    
+        return [
         dict(key="ADMIN",
              name="Admin access",
              description=gettext("Allows administrating all application keys"),
