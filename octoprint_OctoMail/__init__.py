@@ -13,7 +13,7 @@ __plugin_pythoncompat__ = ">=3,<4"
 try:
     from octoprint.access import ADMIN_GROUP
 except:
-    self_logger.info("An error occured")
+    self_logger.info("An Admin Group error occured")
 import os
 import os.path
 import octoprint.plugin
@@ -25,19 +25,19 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import os.path
 import base64
+
 ##myEmails()
 class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterInterface, octoprint.plugin.TemplatePlugin, octoprint.plugin.WebcamProviderPlugin):
     get_line = lambda self, name, line, split: open(name, "r").readlines()[line].strip().split(split)
     def get_additional_permissions(*args, **kwargs):
-    
         return [
-        dict(key="ADMIN",
-             name="Admin access",
-             description=gettext("Allows administrating all application keys"),
-             roles=["admin"],
-             dangerous=True,
-             default_groups=[ADMIN_GROUP])
-    ]
+            dict(key="ADMIN",
+                 name="Admin access",
+                 description=gettext("Allows administrating all application keys"),
+                 roles=["admin"],
+                 dangerous=True,
+                 default_groups=[ADMIN_GROUP])
+        ]
     def on_after_startup(self):
         for i in range(0, 3):
             print("#########################")
@@ -752,9 +752,12 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
             self._logger.info(error)
 ##        except:
 ##            print("An Error Occured")
-__plugin_hooks__ = {
-    "octoprint.access.permissions": get_additional_permissions
-}
+try:
+    __plugin_hooks__ = {
+        "octoprint.access.permissions": get_additional_permissions
+    }
+except:
+    self._logger.info("A Perms error occured")
 __plugin_implementation__ = OctoMailPlugin()
 __plugin_name__ = "OctoMail"
 __plugin_version__ = version
