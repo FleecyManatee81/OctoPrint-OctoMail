@@ -9,6 +9,7 @@
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
 version = "0.0.10"
+__plugin_pythoncompat__ = ">=3,<4"
 from octoprint.access import ADMIN_GROUP
 import os
 import os.path
@@ -753,7 +754,7 @@ __plugin_hooks__ = {
 __plugin_implementation__ = OctoMailPlugin()
 __plugin_name__ = "OctoMail"
 __plugin_version__ = version
-__plugin_pythoncompat__ = ">=3,<4"
+
 __plugin_description__ = "Makes OctoPrint Work Over Email"
 __plugin_author__ = "Fleecy"
 
