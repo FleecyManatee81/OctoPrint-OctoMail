@@ -30,14 +30,14 @@ import base64
 class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterInterface, octoprint.plugin.TemplatePlugin, octoprint.plugin.WebcamProviderPlugin):
     get_line = lambda self, name, line, split: open(name, "r").readlines()[line].strip().split(split)
     def get_additional_permissions(*args, **kwargs):
-        return [
-            dict(key="ADMIN",
-                 name="Admin access",
-                 description=gettext("Allows administrating all application keys"),
-                 roles=["admin"],
-                 dangerous=True,
-                 default_groups=[ADMIN_GROUP])
-        ]
+    return [
+        dict(key="ADMIN",
+             name="Admin access",
+             description=gettext("Allows administrating all application keys"),
+             roles=["admin"],
+             dangerous=True,
+             default_groups=[ADMIN_GROUP])
+    ]
     def on_after_startup(self):
         for i in range(0, 3):
             print("#########################")
