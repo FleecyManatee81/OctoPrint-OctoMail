@@ -8,7 +8,7 @@
 # Copyright:   (c) unsee 2024
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
-version = "0.1.7"
+version = "0.1.8"
 
 try:
     from octoprint.access import ADMIN_GROUP
