@@ -9,7 +9,7 @@
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
 version = "0.1.7"
-__plugin_pythoncompat__ = ">=3,<4"
+
 try:
     from octoprint.access import ADMIN_GROUP
 except:
@@ -25,7 +25,11 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import os.path
 import base64
-
+__plugin_name__ = "OctoMail"
+__plugin_version__ = version
+__plugin_pythoncompat__ = ">=3,<4"
+__plugin_description__ = "Makes OctoPrint Work Over Email!!!"
+__plugin_author__ = "Fleecy"
 ##myEmails()
 class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterInterface, octoprint.plugin.TemplatePlugin, octoprint.plugin.WebcamProviderPlugin):
     get_line = lambda self, name, line, split: open(name, "r").readlines()[line].strip().split(split)
@@ -765,11 +769,7 @@ try:
     __plugin_implementation__ = OctoMailPlugin()
 except:
     self._logger.info("A fatal Error occured")
-__plugin_name__ = "OctoMail"
-__plugin_version__ = version
 
-__plugin_description__ = "Makes OctoPrint Work Over Email"
-__plugin_author__ = "Fleecy"
 
 ##class OctoMailRun(octoprint.plugin.types.OctoPrintPlugin):
 ##    myEmails()
