@@ -8,12 +8,7 @@
 # Copyright:   (c) unsee 2024
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
-version = "0.1.8"
-
-try:
-    from octoprint.access import ADMIN_GROUP
-except:
-    self_logger.info("An Admin Group error occured")
+version = "0.0.10"
 import os
 import os.path
 import octoprint.plugin
@@ -26,33 +21,22 @@ from googleapiclient.errors import HttpError
 import os.path
 import base64
 __plugin_name__ = "OctoMail"
+__plugin_pythoncompat__ = ">=3.8,<4"
 __plugin_version__ = version
-__plugin_pythoncompat__ = ">=3,<4"
-__plugin_description__ = "Makes OctoPrint Work Over Email!!!"
+__plugin_description__ = "Makes OctoPrint Work Over Email"
 __plugin_author__ = "Fleecy"
 ##myEmails()
 class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterInterface, octoprint.plugin.TemplatePlugin, octoprint.plugin.WebcamProviderPlugin, octoprint.access.permissions):
-    get_line = lambda self, name, line, split: open(name, "r").readlines()[line].strip().split(split)
-    try:
-        def get_additional_permissions(*args, **kwargs):
-        return [
-            dict(key="ADMIN",
-                 name="Admin access",
-                 description=gettext("Allows administrating all application keys"),
-                 roles=["admin"],
-                 dangerous=True,
-                 default_groups=[ADMIN_GROUP])
-        ]
-    except:
-        self._logger.info("A Perms Error Occured")
+    get_line = lambda self, name, line, split: open("OctoMailConfig.txt", "r").readlines()[line].strip().split(split)
     def on_after_startup(self):
+        self._access.additional_permissions_hook()
         for i in range(0, 3):
             print("#########################")
         print("#####OCTOMAIL ACTIVE#####")
         for i in range(0, 3):
             print("#########################")
         self._logger.info("OctoMail Loaded")
-        defaults = f"{version}\n\n\n\n!, !\nprint, print\nview, view\nignore, ignore\npreheat, preheat\nhelp, help\naddsafeuser, addsafeuser\nremovesafeuser, removesafeuser\naddtempviewer, addtempviewer\naddviewer, addviewer\nremoveviewer, removeviewer\nconfig, config\nresetconfig, resetconfig\nstop, stop\npause, pause\nresume, resume\ncmdselector, cmdselector"
+        defaults = "0.0.10\n\n\n\n!, !\nprint, print\nview, view\nignore, ignore\npreheat, preheat\nhelp, help\naddsafeuser, addsafeuser\nremovesafeuser, removesafeuser\naddtempviewer, addtempviewer\naddviewer, addviewer\nremoveviewer, removeviewer\nconfig, config\nresetconfig, resetconfig\nstop, stop\npause, pause\nresume, resume\ncmdselector, cmdselector"
         get_line = lambda name, line, split: (open(name).readlines()[line].strip().split(split))
         try:
             with open("OctoMailConfig.txt", "r") as f:
@@ -522,12 +506,14 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
+                self._logger.info(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
                 creds = flow.run_local_server(port=0)
                 self._logger.info(InstalledAppFlow.authorization_url())
             with open("token.json", "w") as f:
                 f.write(creds.to_json())
+
         try:
             service = build("gmail", "v1", credentials=creds, cache_discovery=False)
             result = service.users().messages().list(userId="me").execute()
@@ -759,18 +745,7 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
             self._logger.info(error)
 ##        except:
 ##            print("An Error Occured")
-try:
-    __plugin_hooks__ = {
-        "octoprint.access.permissions": get_additional_permissions
-    }
-except:
-    self._logger.info("A Perms error occured")
-try:
-    __plugin_implementation__ = OctoMailPlugin()
-except:
-    self._logger.info("A fatal Error occured")
-
-
+__plugin_implementation__ = OctoMailPlugin()
 ##class OctoMailRun(octoprint.plugin.types.OctoPrintPlugin):
 ##    myEmails()
 ##__plugin_implementation__ = OctoMailRun, OctoMailPlugin
