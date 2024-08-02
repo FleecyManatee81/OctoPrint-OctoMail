@@ -33,19 +33,9 @@ __plugin_author__ = "Fleecy"
 ##myEmails()
 class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterInterface, octoprint.plugin.TemplatePlugin, octoprint.plugin.WebcamProviderPlugin):
     get_line = lambda self, name, line, split: open(name, "r").readlines()[line].strip().split(split)
-    try:
-        def get_additional_permissions(*args, **kwargs):
-        return [
-            dict(key="ADMIN",
-                 name="Admin access",
-                 description=gettext("Allows administrating all application keys"),
-                 roles=["admin"],
-                 dangerous=True,
-                 default_groups=[ADMIN_GROUP])
-        ]
-    except:
-        self._logger.info("A Perms Error Occured")
-## Cut top
+## Cut 1
+## Cut bottom 1
+## Cut top cut 2
 ## Cut Bottom
 ##        except:
 ##            print("An Error Occured")
