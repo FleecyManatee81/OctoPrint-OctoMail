@@ -8,7 +8,7 @@
 # Copyright:   (c) unsee 2024
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
-version = "0.0.10"
+version = "0.1.7"
 __plugin_pythoncompat__ = ">=3,<4"
 try:
     from octoprint.access import ADMIN_GROUP
@@ -48,7 +48,7 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
         for i in range(0, 3):
             print("#########################")
         self._logger.info("OctoMail Loaded")
-        defaults = "0.0.10\n\n\n\n!, !\nprint, print\nview, view\nignore, ignore\npreheat, preheat\nhelp, help\naddsafeuser, addsafeuser\nremovesafeuser, removesafeuser\naddtempviewer, addtempviewer\naddviewer, addviewer\nremoveviewer, removeviewer\nconfig, config\nresetconfig, resetconfig\nstop, stop\npause, pause\nresume, resume\ncmdselector, cmdselector"
+        defaults = "0.1.7\n\n\n\n!, !\nprint, print\nview, view\nignore, ignore\npreheat, preheat\nhelp, help\naddsafeuser, addsafeuser\nremovesafeuser, removesafeuser\naddtempviewer, addtempviewer\naddviewer, addviewer\nremoveviewer, removeviewer\nconfig, config\nresetconfig, resetconfig\nstop, stop\npause, pause\nresume, resume\ncmdselector, cmdselector"
         get_line = lambda name, line, split: (open(name).readlines()[line].strip().split(split))
         try:
             with open("OctoMailConfig.txt", "r") as f:
