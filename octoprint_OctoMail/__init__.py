@@ -31,7 +31,7 @@ __plugin_pythoncompat__ = ">=3,<4"
 __plugin_description__ = "Makes OctoPrint Work Over Email!!!"
 __plugin_author__ = "Fleecy"
 ##myEmails()
-class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterInterface, octoprint.plugin.TemplatePlugin, octoprint.plugin.WebcamProviderPlugin):
+class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterInterface, octoprint.plugin.TemplatePlugin, octoprint.plugin.WebcamProviderPlugin, octoprint.access.permissions):
     get_line = lambda self, name, line, split: open(name, "r").readlines()[line].strip().split(split)
     try:
         def get_additional_permissions(*args, **kwargs):
