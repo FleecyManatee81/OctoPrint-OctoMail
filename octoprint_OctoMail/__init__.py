@@ -761,7 +761,10 @@ try:
     }
 except:
     self._logger.info("A Perms error occured")
-__plugin_implementation__ = OctoMailPlugin()
+try:
+    __plugin_implementation__ = OctoMailPlugin()
+except:
+    self._logger.info("A fatal Error occured")
 __plugin_name__ = "OctoMail"
 __plugin_version__ = version
 
