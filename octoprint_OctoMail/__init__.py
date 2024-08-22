@@ -772,14 +772,15 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
 ##        except:
 #            print("An Error Occured")
 #try:
+__plugin_implementation__ = OctoMailPlugin()
 if ACCESS_PERMISSIONS_AVAILABLE:
         __plugin_hooks__ = __plugin_implementation__.get_additional_permissions()
 #except:
-    #self._logger.info("A Perms error occured")
+   # self._logger.info("A Perms error occured")
 #try:
- #   __plugin_implementation__ = OctoMailPlugin()
+    
 #except:
- #   self._logger.info("A fatal Error occured")
+    #self._logger.info("A fatal Error occured")
 
 
 ##class OctoMailRun(octoprint.plugin.types.OctoPrintPlugin):
