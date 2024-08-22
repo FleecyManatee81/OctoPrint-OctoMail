@@ -35,7 +35,7 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
     get_line = lambda self, name, line, split: open(name, "r").readlines()[line].strip().split(split)
     try:
         def get_additional_permissions(*args, **kwargs):
-        return [dict(key="ADMIN", name="Admin access", description=gettext("Allows administrating all application keys"), roles=["admin"], dangerous=True, default_groups=[ADMIN_GROUP])]
+            return [dict(key="ADMIN", name="Admin access", description=gettext("Allows administrating all application keys"), roles=["admin"], dangerous=True, default_groups=[ADMIN_GROUP])]
     except:
         self._logger.info("A Perms Error Occured")
     def on_after_startup(self):
