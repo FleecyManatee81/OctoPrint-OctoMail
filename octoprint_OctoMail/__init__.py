@@ -14,6 +14,13 @@ version = "0.1.8"
 #    from octoprint.access import ADMIN_GROUP
 #except:
 #    self_logger.info("An Admin Group error occured")
+try:
+    from octoprint.access import ADMIN_GROUP
+    from octoprint.access.permissions import Permissions
+    ACCESS_PERMISSIONS_AVAILABLE = True
+except ImportError:
+    ACCESS_PERMISSIONS_AVAILABLE = False
+
 import os
 import os.path
 import octoprint.plugin
@@ -38,6 +45,18 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
    #         return [dict(key="ADMIN", name="Admin access", description=gettext("Allows administrating all application keys"), roles=["admin"], dangerous=True, default_groups=[ADMIN_GROUP])]
   #  except:
    #     self._logger.info("A Perms Error Occured")
+    def get_additional_permissions(self):
+        """
+        Returns dashboard-specific user permissions
+        """
+        return [
+            dict(key="ADMIN",
+                 name="Admin access",
+                 description="Allows modifying or adding shell commands",
+                 roles=["admin"],
+                 dangerous=True,
+                 default_groups=[ADMIN_GROUP])
+        ]
     def on_after_startup(self):
         for i in range(0, 3):
             print("#########################")
@@ -751,13 +770,13 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
             print(f"An error occured: {error}")
             self._logger.info(error)
 ##        except:
-##            print("An Error Occured")
+#            print("An Error Occured")
 #try:
-  #  __plugin_hooks__ = {
-#        "octoprint.access.permissions": get_additional_permissions
- #   }
+__plugin_hooks__ = {
+    "octoprint.access.permissions": get_additional_permissions
+ }
 #except:
- #   self._logger.info("A Perms error occured")
+    #self._logger.info("A Perms error occured")
 #try:
  #   __plugin_implementation__ = OctoMailPlugin()
 #except:
