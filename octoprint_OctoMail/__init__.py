@@ -10,10 +10,10 @@
 #-------------------------------------------------------------------------------
 version = "0.1.8"
 
-try:
-    from octoprint.access import ADMIN_GROUP
-except:
-    self_logger.info("An Admin Group error occured")
+#try:
+#    from octoprint.access import ADMIN_GROUP
+#except:
+#    self_logger.info("An Admin Group error occured")
 import os
 import os.path
 import octoprint.plugin
@@ -33,11 +33,11 @@ __plugin_author__ = "Fleecy"
 ##myEmails()
 class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterInterface, octoprint.plugin.TemplatePlugin, octoprint.plugin.WebcamProviderPlugin):
     get_line = lambda self, name, line, split: open(name, "r").readlines()[line].strip().split(split)
-    try:
-        def get_additional_permissions(*args, **kwargs):
-            return [dict(key="ADMIN", name="Admin access", description=gettext("Allows administrating all application keys"), roles=["admin"], dangerous=True, default_groups=[ADMIN_GROUP])]
-    except:
-        self._logger.info("A Perms Error Occured")
+ #   try:
+  #      def get_additional_permissions(*args, **kwargs):
+   #         return [dict(key="ADMIN", name="Admin access", description=gettext("Allows administrating all application keys"), roles=["admin"], dangerous=True, default_groups=[ADMIN_GROUP])]
+  #  except:
+   #     self._logger.info("A Perms Error Occured")
     def on_after_startup(self):
         for i in range(0, 3):
             print("#########################")
@@ -752,16 +752,16 @@ class OctoMailPlugin(octoprint.plugin.StartupPlugin, octoprint.printer.PrinterIn
             self._logger.info(error)
 ##        except:
 ##            print("An Error Occured")
-try:
-    __plugin_hooks__ = {
-        "octoprint.access.permissions": get_additional_permissions
-    }
-except:
-    self._logger.info("A Perms error occured")
-try:
-    __plugin_implementation__ = OctoMailPlugin()
-except:
-    self._logger.info("A fatal Error occured")
+#try:
+  #  __plugin_hooks__ = {
+#        "octoprint.access.permissions": get_additional_permissions
+ #   }
+#except:
+ #   self._logger.info("A Perms error occured")
+#try:
+ #   __plugin_implementation__ = OctoMailPlugin()
+#except:
+ #   self._logger.info("A fatal Error occured")
 
 
 ##class OctoMailRun(octoprint.plugin.types.OctoPrintPlugin):
